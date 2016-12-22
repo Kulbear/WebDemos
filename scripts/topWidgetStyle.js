@@ -4,6 +4,18 @@ let mapper = {
 }
 let topN = 5
 
+
+let validScreen = MB.project().cscreens().map((e) => {
+  return e['cid']
+})
+
+function inScreen(widget) {
+  return validScreen.indexOf(widget['screen_cid']) != -1
+}
+
+filteredAllWidgets = allWidgets.filter(inScreen)
+
+
 function buildStyleString(widgetName, mapper) {
   /* expected we have a mapper looks like
   {
@@ -28,7 +40,7 @@ function getTopNStyle(widgetName, allWidgets, N, mapper) {
   let arr = []
   let occur = []
 
-  arr = allWidgets.filter((value) => {
+  arr = filteredAllWidgets.filter((value) => {
     return value['name'] === widgetName
   })
 
