@@ -1,0 +1,26 @@
+$icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
+$bootstrap-sass-asset-helper: true;
+@import "../node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+
+.meeting-summary {
+  padding: 20px;
+  .row {
+    margin-bottom: 15px;
+  }
+}
+
+.meeting-form {
+  padding: 20px;
+  .row {
+    margin-bottom: 15px;
+  }
+}
+
+.meeting-list {
+  padding: 20px;
+  border: 1px solid #ddd;
+  li {
+    font-size: 20px;
+    line-height: 30px;
+  }
+}
