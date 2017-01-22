@@ -1,9 +1,10 @@
 let allWidgets = Widget.all()
+
 let mapper = {
   'rounded_rect': ['width', 'height', 'bg', 'tc', 'bs', 'bc', 'sc', 'o', 'fs', 'lh'],
 }
-let topN = 5
 
+let topN = 5
 
 let validScreen = MB.project().cscreens().map((e) => {
   return e['cid']
@@ -14,7 +15,6 @@ function inScreen(widget) {
 }
 
 filteredAllWidgets = allWidgets.filter(inScreen)
-
 
 function buildStyleString(widgetName, mapper) {
   /* expected we have a mapper looks like
@@ -52,9 +52,10 @@ function getTopNStyle(widgetName, allWidgets, N, mapper) {
     return r(e)
   })
 
-
   arr.forEach((e) => {
-    stat[e] = stat[e] ? stat[e] + 1 : 1
+    stat[e] = stat[e]
+      ? stat[e] + 1
+      : 1
   })
 
   for (let property in stat) {
@@ -73,9 +74,10 @@ function getTopNStyle(widgetName, allWidgets, N, mapper) {
     return 0
   })
 
-  return occur.length > N ? occur.slice(0, N) : occur
+  return occur.length > N
+    ? occur.slice(0, N)
+    : occur
 }
-
 
 // Test
 function performanceTest(widgetName, topN, testAmount) {
@@ -99,13 +101,30 @@ function performanceTest(widgetName, topN, testAmount) {
   console.log(`Average time it takes for 1 iteration ${average | 0}ms`)
 }
 
-
-let testAmount = 10
-
 // Testing rounded_rect
-performanceTest('rounded_rect', topN, testAmount)
-
+// let testAmount = 10
+// performanceTest('rounded_rect', topN, testAmount)
 
 // For future multiple widgets implementation
-let interestedWidget = ['rounded_rect', ]
-interestedWidget.map((e) => getTopNStyle(e, allWidgets, topN, mapper))
+let interestedWidget = ['rounded_rect']
+
+let container = {}
+interestedWidget.map((e) => container[e] = getTopNStyle(e, allWidgets, topN, mapper))
+
+
+function buildWidgetStyle(styleArr, mapper, widgetName) {
+  let widgetStyle = {}
+  for (let i = 0; i < mapper[widgetName].length; i++) {
+    widgetStyle[mapper[widgetName][i]] = styleArr[i]
+  }
+  return widgetStyle
+}
+
+function buildWidgetStyleObject(widgetName) {
+  let styleObjects = container[widgetName].map((e) => {
+    let styleArr = e[0].split(',')
+    return buildWidgetStyle(styleArr, mapper, widgetName)
+  })
+  return styleObjects
+}
+buildWidgetStyleObject('rounded_rect')
